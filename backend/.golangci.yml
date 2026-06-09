@@ -1,0 +1,15 @@
+run:
+  timeout: 5m
+  issues-exit-code: 0  # Don't exit with error
+  tests: true
+
+linters:
+  disable-all: true
+  enable:
+    - gofmt
+    - govet
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
