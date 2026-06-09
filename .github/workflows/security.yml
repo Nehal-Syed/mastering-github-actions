@@ -1,0 +1,27 @@
+name: Security Scanning
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run GoSec Security Checker
+        run: |
+          cd backend
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          gosec -fmt=html -out=security-report.html ./... || true
+      
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: backend/security-report.html
